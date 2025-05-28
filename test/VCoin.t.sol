@@ -13,10 +13,6 @@ contract TestVCoin is Test {
         c = new VCoin();
     }
 
-    function testDummy() public {
-        assertEq(uint(1), uint(1));
-    }
-
     function testMint() public {
         c.mint(msg.sender, 100);
         assertEq(c.balanceOf(msg.sender), 100);
@@ -29,11 +25,11 @@ contract TestVCoin is Test {
         assertEq(c.balanceOf(address(this)), 50);
     }
 
-    // function testRevertMint() public {
-    //     c.mint(address(this), 100);
-    //     // vm.expectRevert();
-    //     assert(c.balanceOf(address(this)) ==  100);
-    // }
+    function testRevertMint() public {
+        c.mint(address(this), 100);
+        vm.expectRevert();
+        c.transfer(0x4C590bCBeB15093f2C5bdB4F460e9F9f90a4046C, 1000);
+    }
 
     
 
@@ -53,7 +49,5 @@ contract TestVCoin is Test {
         vm.expectRevert();
         c.transferFrom(address(this), 0x2966473D85A76A190697B5b9b66b769436EFE8e5, 100); // This is called by address(this) itself not by 0x4C590bCBeB15093f2C5bdB4F460e9F9f90a4046C, hence fails and reverts
     }
-
-
 
 }
